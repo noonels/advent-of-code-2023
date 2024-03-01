@@ -1,16 +1,22 @@
+mod day_1;
+
 fn main() {
     let args: Vec<String> = std::env::args().collect();
+    let day_arg = &args[1];
     let file_path = &args[2];
     let content = std::fs::read_to_string(file_path).expect("Should be able to read input file");
-    let result: i32 = content.lines().map(|line| {
-        let mut iter = line.chars().filter(|c| c.is_numeric());
-        let first_num = iter.next().expect("Should have first num");
-        let last_num = iter.last().unwrap_or(first_num);
-        format!("{}{}", first_num, last_num)
-    }).map(|line| {
-        line.parse::<i32>()
-            .expect(format!("No valid number found in line {}", line).as_str())
-    }).sum();
 
-    println!("{:?}", result)
+    match day_arg.as_str() {
+        "day1" => {
+            let result: Result<Vec<i32>, _> = day_1::parse_lines(content.as_str());
+            match result {
+                Ok(v) => {
+                    let res: i32 = v.iter().sum();
+                    println!("{}", res)
+                }
+                Err(_) => println!("Error while finding result"),
+            }
+        }
+        _ => println!("No action for day '{}'", day_arg),
+    }
 }
