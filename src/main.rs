@@ -2,6 +2,11 @@ mod day_1;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
+    if args.len() < 3 {
+        println!("Usage: advent_of_code_2018 <day> <input_file>");
+        return;
+    }
+
     let day_arg = &args[1];
     let file_path = &args[2];
     let content = std::fs::read_to_string(file_path).expect("Should be able to read input file");
