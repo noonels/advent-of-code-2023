@@ -1,4 +1,5 @@
 mod day_1;
+mod day_2;
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
@@ -22,6 +23,28 @@ fn main() {
                 Err(_) => println!("Error while finding result"),
             }
         }
-        _ => println!("No action for day '{}'", day_arg),
+
+        "day2" => {
+            let games = day_2::tabulate_games(content.as_str(), Some(true));
+            match games {
+                Ok(v) => {
+                    let result: i32 = v.iter().map(|g| g.id).sum();
+                    println!("result returned: {result}")
+                }
+                Err(_) => println!("Error while finding result"),
+            }
+        }
+        "day2.1" => {
+            let games = day_2::tabulate_games(content.as_str(), None);
+            match games {
+                Ok(gs) => {
+                    let result: i32 = gs.iter().map(|g| g.get_power()).sum();
+                    println!("{result}");
+                }
+                Err(why) => println!("Error while doing challenge: {why}"),
+            }
+        }
+
+        _ => println!("No action for day '{day_arg}'"),
     }
 }
